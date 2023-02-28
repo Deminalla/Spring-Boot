@@ -1,11 +1,11 @@
 use demodb;
 
-DROP TABLE IF EXISTS client;
+DROP TABLE IF EXISTS product_in_order;
 DROP TABLE IF EXISTS `order`;
 -- i do `...` because order is an sql keyword, so this is done to avoid errors
+DROP TABLE IF EXISTS client;
 DROP TABLE IF EXISTS company;
 DROP TABLE IF EXISTS product;
-DROP TABLE IF EXISTS product_in_order;
 
 CREATE TABLE client (
 id_number bigint(20) NOT NULL,
@@ -28,7 +28,6 @@ CREATE TABLE product (
 name varchar(45) NOT NULL,
 category varchar(45) NOT NULL,
 amount bigint(20) DEFAULT 1,
-city varchar(45) NOT NULL,
 PRIMARY KEY (name),
 CONSTRAINT amount_positive CHECK ( amount >= 0 )
 );
