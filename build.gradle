@@ -22,13 +22,19 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-web' // for creating the REST controller
 	implementation 'org.flywaydb:flyway-core'
 	implementation 'org.flywaydb:flyway-mysql'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+
+	implementation group: 'org.mapstruct', name: 'mapstruct', version: '1.5.3.Final'
+	annotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor', version: '1.5.3.Final' // generates the mapper implementation during the build
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+//	implementation 'io.swagger:swagger-annotations:1.5.22'
 }
 
 tasks.named('test') {
