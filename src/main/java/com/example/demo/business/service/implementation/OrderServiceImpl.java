@@ -26,12 +26,14 @@ public class OrderServiceImpl implements OrderService {
         Optional<OrderEntity> orderById = orderRepository.findById(oderId);
         Optional<OrderDto> orderDtoById = orderById.flatMap(order -> Optional.ofNullable(orderMapper.entityToDto(order)));
         log.info("Order with id {} is {}", oderId, orderDtoById);
+
         return orderDtoById;
     }
 
     @Override
     public List<OrderDto> findOrdersByStatus(OrderStatus status) {
         List<OrderEntity> orderListByStatus= orderRepository.findAllByStatusEquals(status);
+        log.info("Orders with status {} are {}",status, orderListByStatus);
 
         return orderListByStatus.stream().map(orderMapper::entityToDto).collect(Collectors.toList());
     }
@@ -42,6 +44,7 @@ public class OrderServiceImpl implements OrderService {
         log.info("Change order status to {}, for order {}", status, order);
         orderEntity.setStatus(status);
         orderRepository.save(orderEntity);
+
         return orderMapper.entityToDto(orderEntity);
     }
 }
