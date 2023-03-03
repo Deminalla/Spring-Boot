@@ -1,4 +1,4 @@
-use demodb;
+use applicationdb;
 
 INSERT INTO product (name, category, amount)
 VALUES ('fantastic compass', 'gadget', 1),

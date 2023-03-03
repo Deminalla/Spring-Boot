@@ -16,10 +16,10 @@ import java.time.LocalDateTime;
 @Data
 public class OrderDto {
     @NotNull
-    private Long orderNr;
+    private Long id;
 
     @NotNull
-    private Long clientId;
+    private Long userId;
 
     @NotNull
     private LocalDateTime date;
@@ -29,12 +29,9 @@ public class OrderDto {
     private BigDecimal price;
 
     @NotNull
-    private Long companyNr;
+    private Long companyId;
 
     @NotNull
     @Pattern(regexp = "^(NOT_STARTED|IN_PROGRESS|FINISHED)$", message = "valid statuses: NOT_STARTED, IN_PROGRESS, FINISHED")
     private OrderStatus status;
-
-    @NotNull
-    private Short paid;
 }

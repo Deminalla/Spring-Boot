@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface OrderService {
-    List<OrderDto> findOrdersByPaidOrNot(boolean paid);
+    Optional<OrderDto> findOrderById(long orderId);
 
-    Optional<OrderDto> findOrderByNr(long number);
+    List<OrderDto> findOrdersByStatus(OrderStatus status);
 
     OrderDto changeStatus (OrderDto order, OrderStatus status);
 }

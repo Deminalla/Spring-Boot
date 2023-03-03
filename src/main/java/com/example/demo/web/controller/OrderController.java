@@ -22,23 +22,23 @@ import java.util.Optional;
 public class OrderController {
     private final OrderService orderService;
 
-    @GetMapping(value = "/paid/{paid}")
-    ResponseEntity<List<OrderDto>> getOrdersByPaidOrNot(@PathVariable boolean paid){
-        log.info("Searching for orders that been paid: {}", paid);
-        List<OrderDto> orderList =  orderService.findOrdersByPaidOrNot(paid);
+    @GetMapping(value = "/status/{status}")
+    ResponseEntity<List<OrderDto>> getOrdersByStatus(@PathVariable OrderStatus status){
+        log.info("Searching for orders that have a status of: {}", status);
+        List<OrderDto> orderList =  orderService.findOrdersByStatus(status);
         return ResponseEntity.ok(orderList);
     }
 
-    @PutMapping(value = "/{orderNr}/{status}")
-    ResponseEntity<OrderDto> changeOrderStatus(@PathVariable long orderNr, @PathVariable OrderStatus status){
-        log.info("Change status for order {} to: {}", orderNr, status);
-        Optional<OrderDto> order = orderService.findOrderByNr(orderNr);
+    @PutMapping(value = "/{orderId}/{status}")
+    ResponseEntity<OrderDto> changeOrderStatus(@PathVariable long orderId, @PathVariable OrderStatus status){
+        log.info("Change status for order {} to: {}", orderId, status);
+        Optional<OrderDto> order = orderService.findOrderById(orderId);
         if(order.isEmpty()){
-            log.warn("Order with number {} not found", orderNr);
+            log.warn("Order with number {} not found", orderId);
             return ResponseEntity.notFound().build();
         }
         OrderDto orderChangedStatus = orderService.changeStatus(order.get(), status);
-        log.info("Order with number {} now has status of {}", orderNr, status);
+        log.info("Order with number {} now has status of {}", orderId, status);
         return ResponseEntity.ok(orderChangedStatus);
     }
 

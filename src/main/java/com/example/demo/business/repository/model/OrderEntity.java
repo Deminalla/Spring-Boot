@@ -9,6 +9,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.math.BigDecimal;
@@ -21,11 +23,12 @@ import java.time.LocalDateTime;
 @Table(name = "`order`") // !!!
 public class OrderEntity {
     @Id
-    @Column(name = "order_number")
-    private Long orderNr;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "order_id")
+    private Long id;
 
-    @Column(name = "client_id_number", nullable = false)
-    private Long clientId;
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime date;
@@ -33,13 +36,10 @@ public class OrderEntity {
     @Column(name = "price", nullable = false)
     private BigDecimal price;
 
-    @Column(name = "company_number", nullable = false)
-    private Long companyNr;
+    @Column(name = "company_id", nullable = false)
+    private Long companyId;
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
-
-    @Column(name = "paid", nullable = false)
-    private Short paid;
 }

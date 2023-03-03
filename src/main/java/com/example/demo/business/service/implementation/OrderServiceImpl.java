@@ -22,19 +22,18 @@ public class OrderServiceImpl implements OrderService {
     private final OrderEntityMapStruct orderMapper;
 
     @Override
-    public List<OrderDto> findOrdersByPaidOrNot(boolean paid) {
-        short paidShort = (short) (paid ? 1 : 0);
-        List<OrderEntity> orderListByPaid = orderRepository.findAllByPaidEquals(paidShort);
-
-        return orderListByPaid.stream().map(orderMapper::entityToDto).collect(Collectors.toList());
+    public Optional<OrderDto> findOrderById(long oderId) {
+        Optional<OrderEntity> orderById = orderRepository.findById(oderId);
+        Optional<OrderDto> orderDtoById = orderById.flatMap(order -> Optional.ofNullable(orderMapper.entityToDto(order)));
+        log.info("Order with id {} is {}", oderId, orderDtoById);
+        return orderDtoById;
     }
 
     @Override
-    public Optional<OrderDto> findOrderByNr(long number) {
-        Optional<OrderEntity> orderById = orderRepository.findById(number);
-        Optional<OrderDto> orderDtoById = orderById.flatMap(order -> Optional.ofNullable(orderMapper.entityToDto(order)));
-        log.info("Order with id {} is {}", number, orderDtoById);
-        return orderDtoById;
+    public List<OrderDto> findOrdersByStatus(OrderStatus status) {
+        List<OrderEntity> orderListByStatus= orderRepository.findAllByStatusEquals(status);
+
+        return orderListByStatus.stream().map(orderMapper::entityToDto).collect(Collectors.toList());
     }
 
     @Override

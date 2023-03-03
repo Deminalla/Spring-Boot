@@ -4,30 +4,33 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Email;
+import java.math.BigDecimal;
 import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ClientDto {
+public class UserDto {
 //    @ApiModelProperty(value = ".....")
-    @NotNull(message = "client id cannot be null")
+    @NotNull(message = "user id cannot be null")
     private Long id;
 
-    @NotNull(message = "client name cannot be null")
-    private String name;
-
-    @NotNull(message = "client surname cannot be null")
-    private String surname;
+    @NotBlank(message = "username cannot be empty")
+    private String username;
 
     @Email(regexp = "^([A-Za-z0-9]+)@([a-z]+)\\.([a-z]+)$", message = "invalid email address") // without regex its text@text
     // some letters or numbers + @ +  some small letters + . + some small letters
     private String email;
 
-    @NotNull(message = "client age cannot be null")
-    private Integer age;
+    @Min(value = 8, message = "password length should not be less that 8 characters")
+    private String password;
+
+    @NotNull(message = "user balance cannot be null")
+    private BigDecimal balance;
 
     private List<OrderDto> orderDtoList;
 }
