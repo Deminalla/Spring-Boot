@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,5 +45,9 @@ public class OrderController {
 
     // post
     // create new order
+    @PutMapping(value = "/new")
+    ResponseEntity<OrderDto> createOrder(Long userId, String userPassword, BigDecimal orderPrice){
 
+        return null;
+    }
 }
