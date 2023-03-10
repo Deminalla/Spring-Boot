@@ -35,7 +35,7 @@ public class OrderControllerUnitTest {
 
     OrderDto orderDto;
     OrderEntity orderEntity;
-    CreateObjects helperClass = new CreateObjects();
+    HelperController helperClass = new HelperController();
 
     @BeforeEach
     void init() {

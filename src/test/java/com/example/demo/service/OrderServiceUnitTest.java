@@ -23,7 +23,6 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
-
 @ExtendWith(MockitoExtension.class)
 public class OrderServiceUnitTest {
     @Mock
@@ -34,12 +33,12 @@ public class OrderServiceUnitTest {
     OrderServiceImpl orderService;
     OrderDto orderDto;
     OrderEntity orderEntity;
-    CreateObjects helperClass = new CreateObjects();
+    HelperService helperService = new HelperService();
 
     @BeforeEach
     void init() {
-        orderDto = helperClass.createOrderDto();
-        orderEntity = helperClass.createOrderEntity();
+        orderDto = helperService.createOrderDto();
+        orderEntity = helperService.createOrderEntity();
     }
 
     @Test
@@ -61,12 +60,12 @@ public class OrderServiceUnitTest {
 
     @Test
     void findByStatus_IN_PROGRESS(){
-        OrderDto orderDto1 = helperClass.createOrderDto2();
-        OrderDto orderDto2 = helperClass.createOrderDto3();
+        OrderDto orderDto1 = helperService.createOrderDto2();
+        OrderDto orderDto2 = helperService.createOrderDto3();
         List<OrderDto> orderDtoList = Arrays.asList(orderDto1, orderDto2);
 
-        OrderEntity orderEntity1 = helperClass.createOrderEntity2();
-        OrderEntity orderEntity2 = helperClass.createOrderEntity3();
+        OrderEntity orderEntity1 = helperService.createOrderEntity2();
+        OrderEntity orderEntity2 = helperService.createOrderEntity3();
         List<OrderEntity> orderEntityList = Arrays.asList(orderEntity1, orderEntity2);
 
         when(orderRepository.findAllByStatusEquals(OrderStatus.IN_PROGRESS)).thenReturn(orderEntityList);
@@ -83,7 +82,7 @@ public class OrderServiceUnitTest {
         orderEntity.setStatus(OrderStatus.FINISHED);
         when(orderRepository.save(orderEntity)).thenReturn(orderEntity);
 
-        OrderDto order = helperClass.createOrderDto();
+        OrderDto order = helperService.createOrderDto();
         order.setStatus(OrderStatus.FINISHED);
         when(orderMapper.entityToDto(orderEntity)).thenReturn(order);
         OrderDto orderChangedStatus =  orderService.changeStatus(orderDto, OrderStatus.FINISHED);

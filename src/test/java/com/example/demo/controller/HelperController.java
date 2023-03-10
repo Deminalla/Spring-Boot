@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.example.demo.controller;
 
 import com.example.demo.business.enums.OrderStatus;
 import com.example.demo.business.repository.model.OrderEntity;
@@ -7,7 +7,7 @@ import com.example.demo.model.OrderDto;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public class CreateObjects {
+public class HelperController {
 
     OrderDto createOrderDto(){
         OrderDto order = new OrderDto();
