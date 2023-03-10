@@ -43,8 +43,7 @@ public class UserEntity {
     @Column(name = "balance", nullable = false)
     private BigDecimal balance;
 
-//    @OneToMany(fetch = FetchType.EAGER)
-    @OneToMany
+    @OneToMany (cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id") // indicates that this entity is the owner of the relationship (the referenced table has a column with a foreign key that is declared in name)
     private List<OrderEntity> orderEntityList;
 }
