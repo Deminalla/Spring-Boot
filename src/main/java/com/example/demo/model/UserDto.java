@@ -35,6 +35,9 @@ public class UserDto {
     @Min(value = 8, message = "password length should not be less that 8 characters")
     private String password;
 
+    @ApiModelProperty(value = "A code for confirming user's identity")
+    private Integer code;
+
     @ApiModelProperty(value = "Balance of the user")
     @NotNull(message = "user balance cannot be null")
     private BigDecimal balance;

@@ -1,10 +1,12 @@
 package com.example.demo.business.repository;
 
 import com.example.demo.business.repository.model.UserEntity;
-import org.hibernate.metamodel.model.convert.spi.JpaAttributeConverter;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface UserRepository extends JpaAttributeConverter<UserEntity, Long> {
+import java.util.Optional;
 
+@Repository
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
+    Optional<UserEntity> findByUsername(String username);
 }

@@ -2,12 +2,15 @@ package com.example.demo.web.controller;
 
 import com.example.demo.business.enums.OrderStatus;
 import com.example.demo.business.service.OrderService;
+import com.example.demo.business.service.UserService;
 import com.example.demo.model.OrderDto;
+import com.example.demo.model.UserDto;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +29,7 @@ import java.util.Optional;
 @RequestMapping(value = "/order")
 public class OrderController {
     private final OrderService orderService;
+    private final UserService userService;
 
     @ApiOperation(value = "gets orders by the given status")
     @GetMapping(value = "/status/{status}")
@@ -53,17 +57,21 @@ public class OrderController {
         return ResponseEntity.ok(orderChangedStatus);
     }
 
-    // post
-    // create new order
-    @PostMapping(value = "/new")
-    ResponseEntity<OrderDto> createOrder(Long userId, String userPassword, BigDecimal orderPrice){
-        // validate whether that user exists
-        // whether id and password match
-        // whether user balance is enough
 
-        // by default create post that is NOT_STARTED
+    @PostMapping(value = "/new_order")
+    ResponseEntity<OrderDto> createOrder(String username, int code, BigDecimal price){
+        Optional<UserDto> user = userService.findUserByUsername(username);
+        if(user.isEmpty()){
+            log.warn("User {} not found", username);
+            return ResponseEntity.notFound().build();
+        }
 
-        return null;
+        userService.checkConfirmationCode(user.get(), code);
+
+        orderService.createOrder(user.get(), price);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
+
     }
 
 }

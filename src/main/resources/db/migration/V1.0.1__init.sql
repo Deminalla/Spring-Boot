@@ -12,6 +12,7 @@ user_id bigint(20) NOT NULL AUTO_INCREMENT,
 username varchar(45) NOT NULL,
 email varchar(50) NOT NULL,
 password varchar(50) NOT NULL,
+confirmation_code integer NOT NULL,
 balance decimal(20,2) NOT NULL,
 PRIMARY KEY (user_id)
 );

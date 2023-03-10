@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,9 +37,13 @@ public class UserEntity {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "confirmation_code", nullable = false)
+    private Integer code;
+
     @Column(name = "balance", nullable = false)
     private BigDecimal balance;
 
+//    @OneToMany(fetch = FetchType.EAGER)
     @OneToMany
     @JoinColumn(name = "user_id") // indicates that this entity is the owner of the relationship (the referenced table has a column with a foreign key that is declared in name)
     private List<OrderEntity> orderEntityList;
