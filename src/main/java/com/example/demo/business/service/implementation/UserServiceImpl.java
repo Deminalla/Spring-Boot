@@ -4,6 +4,7 @@ import com.example.demo.business.mapper.UserEntityMapStruct;
 import com.example.demo.business.repository.UserRepository;
 import com.example.demo.business.repository.model.UserEntity;
 import com.example.demo.business.service.UserService;
+import com.example.demo.model.NewUserDto;
 import com.example.demo.model.UserDto;
 import com.example.demo.model2.ClientDto;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -81,6 +83,28 @@ public class UserServiceImpl implements UserService {
         }
         return true;
 
+    }
+
+    @Override
+    public UserDto createNewUser(NewUserDto newUserDto) {
+        log.info("Creating new user");
+        Optional<UserDto> userDto = findUserByUsername(newUserDto.getUsername());
+        if(userDto.isPresent()){
+            log.warn("User with username {} already exists", newUserDto.getUsername());
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "User with such a username already exists, enter a different username");
+        }
+
+        Random rand = new Random();
+        int rand_int = rand.nextInt(10000); // Generate random integers in range 0 to 9999
+
+        UserEntity userEntity = new UserEntity();
+        userEntity.setUsername(newUserDto.getUsername());
+        userEntity.setEmail(newUserDto.getEmail());
+        userEntity.setPassword(newUserDto.getPassword());
+        userEntity.setBalance(BigDecimal.ZERO);
+        userEntity.setCode(rand_int);
+
+        return userMapper.entityToDto(userEntity);
     }
 
 }

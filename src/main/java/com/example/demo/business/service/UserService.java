@@ -1,5 +1,6 @@
 package com.example.demo.business.service;
 
+import com.example.demo.model.NewUserDto;
 import com.example.demo.model.UserDto;
 import com.example.demo.model2.ClientDto;
 
@@ -17,6 +18,6 @@ public interface UserService {
 
     boolean enoughBalance(UserDto user, BigDecimal price);
 
-
+    UserDto createNewUser(NewUserDto newUserDto);
 
 }
