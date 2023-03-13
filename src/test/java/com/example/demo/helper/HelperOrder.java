@@ -1,17 +1,15 @@
-package com.example.demo.Helper;
+package com.example.demo.helper;
 
 import com.example.demo.business.enums.OrderStatus;
 import com.example.demo.business.repository.model.OrderEntity;
-import com.example.demo.business.repository.model.UserEntity;
 import com.example.demo.model.OrderDto;
-import com.example.demo.model.UserDto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class HelperOrder {
 
-    public OrderDto createOrderDto(){
+    public static OrderDto createOrderDto(){
         OrderDto order = new OrderDto();
         order.setId(1L);
         order.setUserId(11111111111L);
@@ -21,7 +19,7 @@ public class HelperOrder {
         order.setStatus(OrderStatus.NOT_STARTED);
         return order;
     }
-    public OrderEntity createOrderEntity(){
+    public static OrderEntity createOrderEntity(){
         OrderEntity order = new OrderEntity();
         order.setId(1L);
         order.setUserId(11111111111L);
@@ -32,7 +30,7 @@ public class HelperOrder {
         return order;
     }
 
-    public OrderDto createOrderDto2(){
+    public static OrderDto createOrderDto2(){
         OrderDto order = new OrderDto();
         order.setId(2L);
         order.setUserId(11111111111L);
@@ -42,7 +40,7 @@ public class HelperOrder {
         order.setStatus(OrderStatus.IN_PROGRESS);
         return order;
     }
-    public OrderEntity createOrderEntity2(){
+    public static OrderEntity createOrderEntity2(){
         OrderEntity order = new OrderEntity();
         order.setId(2L);
         order.setUserId(11111111111L);
@@ -53,7 +51,7 @@ public class HelperOrder {
         return order;
     }
 
-    public OrderDto createOrderDto3(){
+    public static OrderDto createOrderDto3(){
         OrderDto order = new OrderDto();
         order.setId(3L);
         order.setUserId(21111111111L);
@@ -63,7 +61,7 @@ public class HelperOrder {
         order.setStatus(OrderStatus.IN_PROGRESS);
         return order;
     }
-    public OrderEntity createOrderEntity3(){
+    public static OrderEntity createOrderEntity3(){
         OrderEntity order = new OrderEntity();
         order.setId(3L);
         order.setUserId(21111111111L);

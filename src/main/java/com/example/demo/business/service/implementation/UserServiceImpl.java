@@ -23,6 +23,7 @@ import java.util.Random;
 @Service
 @RequiredArgsConstructor
 @Log4j2
+@Transactional
 public class UserServiceImpl implements UserService {
     private final RestTemplate restTemplate; // instead of RestTemplate restTemplate = new RestTemplate(); all the time
     private final UserRepository userRepository;
@@ -56,7 +57,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public Optional<UserDto> findUserByUsername(String username) {
         log.info("Searching for user {}", username);
         Optional<UserEntity> userByName = userRepository.findByUsername(username);
@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
         Optional<UserDto> userDto = findUserByUsername(newUserDto.getUsername());
         if(userDto.isPresent()){
             log.warn("User with username {} already exists", newUserDto.getUsername());
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "User with such a username already exists, enter a different username");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Username is already taken, enter a different username");
         }
 
         Random rand = new Random();

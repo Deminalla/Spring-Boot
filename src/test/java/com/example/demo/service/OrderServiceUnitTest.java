@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.Helper.HelperOrder;
+import com.example.demo.helper.HelperOrder;
 import com.example.demo.business.enums.OrderStatus;
 import com.example.demo.business.mapper.OrderEntityMapStruct;
 import com.example.demo.business.repository.OrderRepository;
@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static com.example.demo.helper.HelperOrder.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -34,12 +35,11 @@ public class OrderServiceUnitTest {
     OrderServiceImpl orderService;
     OrderDto orderDto;
     OrderEntity orderEntity;
-    HelperOrder helperOrder = new HelperOrder();
 
     @BeforeEach
     void init() {
-        orderDto = helperOrder.createOrderDto();
-        orderEntity = helperOrder.createOrderEntity();
+        orderDto = createOrderDto();
+        orderEntity = createOrderEntity();
     }
 
     @Test
@@ -61,12 +61,12 @@ public class OrderServiceUnitTest {
 
     @Test
     void findByStatus_IN_PROGRESS(){
-        OrderDto orderDto1 = helperOrder.createOrderDto2();
-        OrderDto orderDto2 = helperOrder.createOrderDto3();
+        OrderDto orderDto1 = createOrderDto2();
+        OrderDto orderDto2 = createOrderDto3();
         List<OrderDto> orderDtoList = Arrays.asList(orderDto1, orderDto2);
 
-        OrderEntity orderEntity1 = helperOrder.createOrderEntity2();
-        OrderEntity orderEntity2 = helperOrder.createOrderEntity3();
+        OrderEntity orderEntity1 = createOrderEntity2();
+        OrderEntity orderEntity2 = createOrderEntity3();
         List<OrderEntity> orderEntityList = Arrays.asList(orderEntity1, orderEntity2);
 
         when(orderRepository.findAllByStatusEquals(OrderStatus.IN_PROGRESS)).thenReturn(orderEntityList);
@@ -83,7 +83,7 @@ public class OrderServiceUnitTest {
         orderEntity.setStatus(OrderStatus.FINISHED);
         when(orderRepository.save(orderEntity)).thenReturn(orderEntity);
 
-        OrderDto order = helperOrder.createOrderDto();
+        OrderDto order = createOrderDto();
         order.setStatus(OrderStatus.FINISHED);
         when(orderMapper.entityToDto(orderEntity)).thenReturn(order);
         OrderDto orderChangedStatus =  orderService.changeStatus(orderDto, OrderStatus.FINISHED);

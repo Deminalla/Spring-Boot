@@ -1,7 +1,5 @@
 package com.example.demo.controller;
 
-import com.example.demo.Helper.HelperOrder;
-import com.example.demo.Helper.HelperUser;
 import com.example.demo.business.enums.OrderStatus;
 import com.example.demo.business.repository.model.OrderEntity;
 import com.example.demo.business.repository.model.UserEntity;
@@ -26,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.example.demo.helper.HelperOrder.*;;
+import static com.example.demo.helper.HelperUser.*;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
@@ -44,9 +44,6 @@ public class OrderControllerUnitTest {
     @MockBean
     UserService userService;
 
-    HelperOrder helperOrder = new HelperOrder();
-    HelperUser helperUser = new HelperUser();
-
     OrderDto orderDto;
     OrderEntity orderEntity;
     UserDto userDto;
@@ -54,10 +51,10 @@ public class OrderControllerUnitTest {
 
     @BeforeEach
     void init() {
-        orderDto = helperOrder.createOrderDto();
-        orderEntity = helperOrder.createOrderEntity();
-        userDto = helperUser.createUserDto();
-        userEntity = helperUser.createUserEntity();
+        orderDto = createOrderDto();
+        orderEntity = createOrderEntity();
+        userDto = createUserDto();
+        userEntity = createUserEntity();
 
     }
 
@@ -80,7 +77,7 @@ public class OrderControllerUnitTest {
     @Test
     void changeOrderStatus_Successful() throws Exception {
         when(orderService.findOrderById(orderDto.getId())).thenReturn(Optional.of(orderDto));
-        OrderDto orderDto2 = helperOrder.createOrderDto2();
+        OrderDto orderDto2 = createOrderDto2();
         when(orderService.changeStatus(orderDto, OrderStatus.IN_PROGRESS)).thenReturn(orderDto2);
 
         RequestBuilder request = MockMvcRequestBuilders

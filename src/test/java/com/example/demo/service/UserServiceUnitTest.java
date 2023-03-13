@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.Helper.HelperUser;
+import com.example.demo.helper.HelperUser;
 import com.example.demo.business.mapper.UserEntityMapStruct;
 import com.example.demo.business.repository.UserRepository;
 import com.example.demo.business.repository.model.UserEntity;
@@ -18,6 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.math.BigDecimal;
 import java.util.Optional;
 
+import static com.example.demo.helper.HelperUser.*;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -40,15 +41,14 @@ public class UserServiceUnitTest {
     UserEntity userEntity;
     UserDto userDto2;
     UserEntity userEntity2;
-    HelperUser helperUser = new HelperUser();
 
 
     @BeforeEach
     void init() {
-        userDto = helperUser.createUserDto();
-        userEntity = helperUser.createUserEntity();
-        userDto2 = helperUser.createUserDto2();
-        userEntity2 = helperUser.createUserEntity2();
+        userDto = createUserDto();
+        userEntity = createUserEntity();
+        userDto2 = createUserDto2();
+        userEntity2 = createUserEntity2();
     }
 
     @Test
