@@ -22,6 +22,11 @@ public class UserController {
 
     private final UserService userService;
 
+    @GetMapping("/")
+    public String userHomePage(){
+        return ("<h1> HELLO USER </h1>");
+    }
+
     @GetMapping(value = "/{id}")
     ResponseEntity<ClientDto> getClientNameSurname(@PathVariable long id){
         log.info("Looking for name and surname of client with id {}", id);
