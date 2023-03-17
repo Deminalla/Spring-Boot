@@ -31,6 +31,7 @@ public class SecurityConfig {
                 .antMatchers("/company/**").hasRole("COMPANY")
                 .antMatchers("/order/**").hasAnyRole("USER", "COMPANY")
                 .antMatchers("/**").hasAnyRole("USER", "COMPANY")
+                .and().httpBasic() // for basic authorization with postman
                 .and().formLogin();
         return http.build();
     }
