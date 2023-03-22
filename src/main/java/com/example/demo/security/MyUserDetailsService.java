@@ -1,8 +1,12 @@
 package com.example.demo.security;
 
+import com.example.demo.business.mapper.CompanyEntityMapStruct;
 import com.example.demo.business.mapper.UserEntityMapStruct;
+import com.example.demo.business.repository.CompanyRepository;
 import com.example.demo.business.repository.UserRepository;
+import com.example.demo.business.repository.model.CompanyEntity;
 import com.example.demo.business.repository.model.UserEntity;
+import com.example.demo.model.CompanyDto;
 import com.example.demo.model.UserDto;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,16 +22,25 @@ import java.util.Optional;
 @Service
 public class MyUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
+    private final CompanyRepository companyRepository;
     private final UserEntityMapStruct userMapper;
+    private final CompanyEntityMapStruct companyMapper;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<UserEntity> userEntity = userRepository.findByUsername(username);
 
-        if(userEntity.isEmpty()){
-            throw new UsernameNotFoundException(username + " not found");
+        if(userEntity.isPresent()){
+            UserDto userDto = userMapper.entityToDto(userEntity.get());
+            return new MyUserDetails(userDto);
         }
 
-        UserDto userDto = userMapper.entityToDto(userEntity.get());
-        return new MyUserDetails(userDto);
+        long companyId = Integer.parseInt(username); // check if it can be turned to long
+        Optional<CompanyEntity> companyEntity = companyRepository.findById(companyId);
+        if(companyEntity.isPresent()){
+            CompanyDto companyDto = companyMapper.entityToDto(companyEntity.get());
+            return new MyUserDetails(companyDto);
+        }
+        throw new UsernameNotFoundException(username + " not found");
     }
 }

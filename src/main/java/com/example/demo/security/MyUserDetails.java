@@ -1,5 +1,6 @@
 package com.example.demo.security;
 
+import com.example.demo.model.CompanyDto;
 import com.example.demo.model.UserDto;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -23,11 +24,11 @@ public class MyUserDetails implements UserDetails {
         this.authorityList = Arrays.asList(new SimpleGrantedAuthority(("ROLE_USER")));
     }
 
-//    public MyUserDetails (CompanyDto companyDto){
-//        this.username = companyDto.getName();
-////        this.password = companyDto.getPassword();
-//        this.authorityList = Arrays.asList(new SimpleGrantedAuthority(("ROLE_COMPANY"))); //ig since an account can ahve more than 1 role
-//    }
+    public MyUserDetails (CompanyDto companyDto){
+        this.username = companyDto.getName();
+        this.password = new BCryptPasswordEncoder().encode("pass"); // for now its hardcoded
+        this.authorityList = Arrays.asList(new SimpleGrantedAuthority(("ROLE_COMPANY"))); //since an account can have more than 1 role
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

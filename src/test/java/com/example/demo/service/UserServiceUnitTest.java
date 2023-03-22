@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import com.example.demo.helper.HelperUser;
 import com.example.demo.business.mapper.UserEntityMapStruct;
 import com.example.demo.business.repository.UserRepository;
 import com.example.demo.business.repository.model.UserEntity;
