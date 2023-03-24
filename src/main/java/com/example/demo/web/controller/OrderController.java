@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -59,12 +60,12 @@ public class OrderController {
 
 
     @PostMapping(value = "/new_order")
-    ResponseEntity<OrderDto> createOrder(String username, int code, BigDecimal price){
-        Optional<UserDto> user = userService.findUserByUsername(username);
-        if(user.isEmpty()){
-            log.warn("User {} not found", username);
-            return ResponseEntity.notFound().build();
-        }
+    ResponseEntity<OrderDto> createOrder(Authentication authentication, int code, BigDecimal price){
+        Optional<UserDto> user = userService.findUserByUsername(authentication.getName());
+//        if(user.isEmpty()){
+//            log.warn("User {} not found", authentication.getName());
+//            return ResponseEntity.notFound().build();
+//        }
 
         userService.checkConfirmationCode(user.get(), code);
 
