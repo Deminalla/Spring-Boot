@@ -35,11 +35,15 @@ public class MyUserDetailsService implements UserDetailsService {
             return new MyUserDetails(userDto);
         }
 
-        long companyId = Integer.parseInt(username); // check if it can be turned to long
-        Optional<CompanyEntity> companyEntity = companyRepository.findById(companyId);
-        if(companyEntity.isPresent()){
-            CompanyDto companyDto = companyMapper.entityToDto(companyEntity.get());
-            return new MyUserDetails(companyDto);
+        try {
+           long companyId = Long.parseLong(username);
+            Optional<CompanyEntity> companyEntity = companyRepository.findById(companyId);
+            if(companyEntity.isPresent()){
+                CompanyDto companyDto = companyMapper.entityToDto(companyEntity.get());
+                return new MyUserDetails(companyDto);
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("NumberFormatException: " + e.getMessage());
         }
         throw new UsernameNotFoundException(username + " not found");
     }

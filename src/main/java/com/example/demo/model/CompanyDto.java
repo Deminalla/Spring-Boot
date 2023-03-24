@@ -6,7 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,4 +26,11 @@ public class CompanyDto {
     @ApiModelProperty(value = "City in which the company is located in")
     @NotNull
     private String city;
+
+    @ApiModelProperty(value = "Password of the user")
+    @Min(value = 8, message = "password length should not be less that 8 characters")
+    private String password;
+
+    @ApiModelProperty(value = "List of the company's accepted orders")
+    private List<OrderDto> orderDtoList;
 }

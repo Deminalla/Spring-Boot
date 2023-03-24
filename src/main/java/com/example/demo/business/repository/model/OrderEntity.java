@@ -36,7 +36,7 @@ public class OrderEntity {
     @Column(name = "price", nullable = false)
     private BigDecimal price;
 
-    @Column(name = "company_id", nullable = false)
+    @Column(name = "company_id")
     private Long companyId;
 
     @Column(name = "status", nullable = false)

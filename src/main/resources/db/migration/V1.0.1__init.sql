@@ -21,6 +21,7 @@ CREATE TABLE company (
 company_id bigint(20) NOT NULL AUTO_INCREMENT,
 name varchar(45) NOT NULL,
 city varchar(45) NOT NULL,
+password varchar(45),
 PRIMARY KEY (company_id)
 );
 
