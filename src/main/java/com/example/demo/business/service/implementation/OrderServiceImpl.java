@@ -10,7 +10,9 @@ import com.example.demo.model.OrderDto;
 import com.example.demo.model.UserDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -44,7 +46,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDto changeStatus(OrderDto order, OrderStatus status) {
+    public OrderDto changeStatus(OrderDto order, OrderStatus status, String companyId) {
+        long id = Long.parseLong(companyId);
+        if(!order.getId().equals(id)){  // make sure the company's id (who is logged in rn) matches the id on the order
+            log.warn("Company with id {} is not allowed to change the order {} status", companyId, order.getId());
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Other company is in charge of order " + companyId);
+        }
+
         OrderEntity orderEntity = orderMapper.dtoToEntity(order);
         log.info("Change order status to {}, for order {}", status, order);
         orderEntity.setStatus(status);
@@ -68,6 +76,21 @@ public class OrderServiceImpl implements OrderService {
         log.info("New order {} has been created", orderDto);
 
         return orderDto;
+    }
+
+    @Override
+    public void acceptOrder(OrderDto order, String companyId) {
+        log.info("Accepting order");
+
+        long id = Long.parseLong(companyId);
+        if(order.getId()!=null){
+            log.warn("Order with id {} is already taken", order.getId());
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Order " + companyId + " is already taken");
+        }
+
+        OrderEntity orderEntity = orderMapper.dtoToEntity(order);
+        orderEntity.setCompanyId(id);
+        orderRepository.save(orderEntity);
     }
 
 }

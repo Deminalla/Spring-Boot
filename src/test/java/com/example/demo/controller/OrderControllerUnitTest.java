@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.example.demo.helper.HelperOrder.*;;
+import static com.example.demo.helper.HelperOrder.*;
 import static com.example.demo.helper.HelperUser.*;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
@@ -78,7 +78,7 @@ public class OrderControllerUnitTest {
     void changeOrderStatus_Successful() throws Exception {
         when(orderService.findOrderById(orderDto.getId())).thenReturn(Optional.of(orderDto));
         OrderDto orderDto2 = createOrderDto2();
-        when(orderService.changeStatus(orderDto, OrderStatus.IN_PROGRESS)).thenReturn(orderDto2);
+        when(orderService.changeStatus(orderDto, OrderStatus.IN_PROGRESS, "1")).thenReturn(orderDto2);
 
         RequestBuilder request = MockMvcRequestBuilders
                 .put(URL + "/" + orderDto.getId() + "/" + "IN_PROGRESS")

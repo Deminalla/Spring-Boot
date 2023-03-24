@@ -85,7 +85,7 @@ public class OrderServiceUnitTest {
         OrderDto order = createOrderDto();
         order.setStatus(OrderStatus.FINISHED);
         when(orderMapper.entityToDto(orderEntity)).thenReturn(order);
-        OrderDto orderChangedStatus =  orderService.changeStatus(orderDto, OrderStatus.FINISHED);
+        OrderDto orderChangedStatus =  orderService.changeStatus(orderDto, OrderStatus.FINISHED, "1");
 
         assertEquals(orderChangedStatus.getStatus(), OrderStatus.FINISHED);
         assertNotEquals(orderChangedStatus.getStatus(), OrderStatus.NOT_STARTED);

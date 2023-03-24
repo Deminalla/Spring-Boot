@@ -14,7 +14,9 @@ public interface OrderService {
 
     List<OrderDto> findOrdersByStatus(OrderStatus status);
 
-    OrderDto changeStatus (OrderDto order, OrderStatus status);
+    OrderDto changeStatus (OrderDto order, OrderStatus status, String id);
 
     OrderDto createOrder(UserDto user, BigDecimal price);
+
+    void acceptOrder(OrderDto order, String companyId);
 }

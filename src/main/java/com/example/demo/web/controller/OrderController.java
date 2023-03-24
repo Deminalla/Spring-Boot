@@ -14,12 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -41,25 +36,6 @@ public class OrderController {
         return ResponseEntity.ok(orderList);
     }
 
-    @ApiOperation(value = "changes order status to the given one")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "The request is successful"),
-            @ApiResponse(code = 404, message = "The server cannot find the requested resource")
-    })
-    @Secured("ROLE_COMPANY")
-    @PutMapping(value = "/{orderId}/{status}")
-    ResponseEntity<OrderDto> changeOrderStatus(@PathVariable long orderId, @PathVariable OrderStatus status){
-        log.info("Change status for order {} to: {}", orderId, status);
-        Optional<OrderDto> order = orderService.findOrderById(orderId);
-        if(order.isEmpty()){
-            log.warn("Order with id {} not found", orderId);
-            return ResponseEntity.notFound().build();
-        }
-        OrderDto orderChangedStatus = orderService.changeStatus(order.get(), status);
-        log.info("Order with id {} now has status of {}", orderId, status);
-        return ResponseEntity.ok(orderChangedStatus);
-    }
-
     @Secured("ROLE_USER")
     @PostMapping(value = "/new_order")
     ResponseEntity<OrderDto> createOrder(Authentication authentication, int code, BigDecimal price){
@@ -71,4 +47,38 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @Secured("ROLE_COMPANY")
+    @PutMapping(value = "/accept/{orderId}")
+    ResponseEntity<?> acceptOrder(@PathVariable long orderId, Authentication authentication){
+        log.info("Accept order with id {}", orderId);
+        Optional<OrderDto> order = orderService.findOrderById(orderId);
+        if(order.isEmpty()){
+            log.warn("Order with id {} not found", orderId);
+            return ResponseEntity.notFound().build();
+        }
+
+        String name = authentication.getName();
+
+        orderService.acceptOrder(order.get(), authentication.getName());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "changes order status to the given one")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "The request is successful"),
+            @ApiResponse(code = 404, message = "The server cannot find the requested resource")
+    })
+    @Secured("ROLE_COMPANY")
+    @PutMapping(value = "/{orderId}/{status}")
+    ResponseEntity<OrderDto> changeOrderStatus(@PathVariable long orderId, @PathVariable OrderStatus status, Authentication authentication){
+        log.info("Change status for order {} to: {}", orderId, status);
+        Optional<OrderDto> order = orderService.findOrderById(orderId);
+        if(order.isEmpty()){
+            log.warn("Order with id {} not found", orderId);
+            return ResponseEntity.notFound().build();
+        }
+        OrderDto orderChangedStatus = orderService.changeStatus(order.get(), status, authentication.getName());
+        log.info("Order with id {} now has status of {}", orderId, status);
+        return ResponseEntity.ok(orderChangedStatus);
+    }
 }
