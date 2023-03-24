@@ -48,9 +48,9 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto changeStatus(OrderDto order, OrderStatus status, String companyId) {
         long id = Long.parseLong(companyId);
-        if(!order.getId().equals(id)){  // make sure the company's id (who is logged in rn) matches the id on the order
+        if(!order.getCompanyId().equals(id)){  // make sure the company's id (who is logged in rn) matches the id on the order
             log.warn("Company with id {} is not allowed to change the order {} status", companyId, order.getId());
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Other company is in charge of order " + companyId);
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Other company is in charge of order " + order.getId());
         }
 
         OrderEntity orderEntity = orderMapper.dtoToEntity(order);
@@ -83,9 +83,9 @@ public class OrderServiceImpl implements OrderService {
         log.info("Accepting order");
 
         long id = Long.parseLong(companyId);
-        if(order.getId()!=null){
+        if(order.getCompanyId()!=null){
             log.warn("Order with id {} is already taken", order.getId());
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Order " + companyId + " is already taken");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Order " + order.getId() + " is already taken");
         }
 
         OrderEntity orderEntity = orderMapper.dtoToEntity(order);

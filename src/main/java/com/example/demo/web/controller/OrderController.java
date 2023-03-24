@@ -57,8 +57,6 @@ public class OrderController {
             return ResponseEntity.notFound().build();
         }
 
-        String name = authentication.getName();
-
         orderService.acceptOrder(order.get(), authentication.getName());
         return new ResponseEntity<>(HttpStatus.OK);
     }

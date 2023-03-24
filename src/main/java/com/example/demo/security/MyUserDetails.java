@@ -25,7 +25,7 @@ public class MyUserDetails implements UserDetails {
     }
 
     public MyUserDetails (CompanyDto companyDto){
-        this.username = companyDto.getName();
+        this.username = String.valueOf(companyDto.getId());
         this.password = new BCryptPasswordEncoder().encode(companyDto.getPassword());
         this.authorityList = Arrays.asList(new SimpleGrantedAuthority(("ROLE_COMPANY"))); //since an account can have more than 1 role
     }
