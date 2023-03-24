@@ -7,6 +7,7 @@ import com.example.demo.business.service.OrderService;
 import com.example.demo.business.service.UserService;
 import com.example.demo.model.OrderDto;
 import com.example.demo.model.UserDto;
+import com.example.demo.security.AuthenticationFacade;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,9 @@ public class OrderControllerUnitTest {
     @Autowired
     private MockMvc mockMvc;
     private static final String URL = "/order";
+
+    @MockBean
+    AuthenticationFacade authentication;
 
     @MockBean
     OrderService orderService;
@@ -76,6 +80,7 @@ public class OrderControllerUnitTest {
 
     @Test
     void changeOrderStatus_Successful() throws Exception {
+        when(authentication.getAuthentication().getName()).thenReturn(orderDto.getCompanyId().toString());
         when(orderService.findOrderById(orderDto.getId())).thenReturn(Optional.of(orderDto));
         OrderDto orderDto2 = createOrderDto2();
         when(orderService.changeStatus(orderDto, OrderStatus.IN_PROGRESS, "1")).thenReturn(orderDto2);

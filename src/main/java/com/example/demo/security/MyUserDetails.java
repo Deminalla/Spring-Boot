@@ -15,7 +15,6 @@ import java.util.List;
 @AllArgsConstructor
 public class MyUserDetails implements UserDetails {
     private String username, password;
-//    private boolean active;
     private List<GrantedAuthority> authorityList;
 
     public MyUserDetails (UserDto userDto){
