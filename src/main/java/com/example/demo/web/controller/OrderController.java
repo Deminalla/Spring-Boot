@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,6 +46,7 @@ public class OrderController {
             @ApiResponse(code = 200, message = "The request is successful"),
             @ApiResponse(code = 404, message = "The server cannot find the requested resource")
     })
+    @Secured("ROLE_COMPANY")
     @PutMapping(value = "/{orderId}/{status}")
     ResponseEntity<OrderDto> changeOrderStatus(@PathVariable long orderId, @PathVariable OrderStatus status){
         log.info("Change status for order {} to: {}", orderId, status);
@@ -58,21 +60,15 @@ public class OrderController {
         return ResponseEntity.ok(orderChangedStatus);
     }
 
-
+    @Secured("ROLE_USER")
     @PostMapping(value = "/new_order")
     ResponseEntity<OrderDto> createOrder(Authentication authentication, int code, BigDecimal price){
         Optional<UserDto> user = userService.findUserByUsername(authentication.getName());
-//        if(user.isEmpty()){
-//            log.warn("User {} not found", authentication.getName());
-//            return ResponseEntity.notFound().build();
-//        }
 
         userService.checkConfirmationCode(user.get(), code);
-
         orderService.createOrder(user.get(), price);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
-
     }
 
 }
