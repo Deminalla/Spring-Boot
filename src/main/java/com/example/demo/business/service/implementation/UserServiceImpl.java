@@ -45,15 +45,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto extractMoney(UserDto user, BigDecimal money) {
-        enoughBalance(user, money);
+    public void modifyBalance(String username, BigDecimal money, boolean add) {
+        Optional<UserDto> userOptional = findUserByUsername(username);
+        UserDto user = userOptional.get();
 
-        log.info("Extracting money from user {} balance", user.getUsername());
-        BigDecimal newBalance = user.getBalance().subtract(money);
-        user.setBalance(newBalance);
+        if(money.compareTo(BigDecimal.ZERO)<=0){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Amount should be a positive number");
+        }
+
+        if(add){
+            log.info("Adding {} to user {} balance", money, user.getUsername());
+            BigDecimal newBalance = user.getBalance().add(money);
+            user.setBalance(newBalance);
+        }
+        else{
+            enoughBalance(user, money);
+            log.info("Extracting {} from user {} balance", money, user.getUsername());
+            BigDecimal newBalance = user.getBalance().subtract(money);
+            user.setBalance(newBalance);
+        }
         UserEntity userEntity = userMapper.dtoToEntity(user);
         userRepository.save(userEntity);
-        return user;
     }
 
     @Override

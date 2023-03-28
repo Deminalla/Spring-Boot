@@ -68,7 +68,7 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @ApiOperation(value = "changes order status to the given one")
+    @ApiOperation(value = "Changes order status to the given one")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "The request is successful"),
             @ApiResponse(code = 404, message = "The server cannot find the requested resource")

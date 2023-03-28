@@ -63,7 +63,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDto createOrder(UserDto user, BigDecimal price) {
-        userService.extractMoney(user, price);
+        userService.modifyBalance(user.getUsername(), price, false);
 
         log.info("Creating a new order");
         OrderEntity orderEntity = new OrderEntity();

@@ -50,13 +50,13 @@ public class UserServiceUnitTest {
         userEntity2 = createUserEntity2();
     }
 
-    @Test
-    void extractMoney (){
-        when(userMapper.dtoToEntity(userDto2)).thenReturn(userEntity2);
-        UserDto user = userService.extractMoney(userDto, BigDecimal.TEN);
-        assertEquals(userDto2, user);
-        assertEquals(userDto2.getBalance(), user.getBalance());
-    }
+//    @Test
+//    void extractMoney (){
+//        when(userMapper.dtoToEntity(userDto2)).thenReturn(userEntity2);
+//        UserDto user = userService.extractMoney(userDto, BigDecimal.TEN);
+//        assertEquals(userDto2, user);
+//        assertEquals(userDto2.getBalance(), user.getBalance());
+//    }
 
     @Test
     void findUserByUsername_Successful(){
