@@ -59,7 +59,6 @@ public class OrderControllerUnitTest {
         orderEntity = createOrderEntity();
         userDto = createUserDto();
         userEntity = createUserEntity();
-
     }
 
     @WithMockUser(roles = {"USER", "COMPANY"})
@@ -107,11 +106,23 @@ public class OrderControllerUnitTest {
                 .andExpect(status().isNotFound())
                 .andDo(print());
     }
+    @WithMockUser(username = "2", roles = "COMPANY")
+    @Test
+    void changeOrderStatus_WrongCompany() throws Exception {
+        when(orderService.findOrderById(orderDto.getId())).thenReturn(Optional.of(orderDto));
+        doThrow(new ResponseStatusException(HttpStatus.UNAUTHORIZED)).when(orderService).changeStatus(orderDto, OrderStatus.IN_PROGRESS, "2");
 
+        RequestBuilder request = MockMvcRequestBuilders
+                .put(URL + "/" + orderDto.getId() + "/" + "IN_PROGRESS")
+                .accept(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(request)
+                .andExpect(status().isUnauthorized())
+                .andDo(print());
+    }
     @WithMockUser(username = "User1", roles = "USER")
     @Test
     void changeOrderStatus_WrongRole() throws Exception {
-
         RequestBuilder request = MockMvcRequestBuilders
                 .put(URL + "/" + orderDto.getId() + "/" + "IN_PROGRESS")
                 .accept(MediaType.APPLICATION_JSON);
@@ -139,7 +150,6 @@ public class OrderControllerUnitTest {
                 .andExpect(status().isCreated())
                 .andDo(print());
     }
-
     @WithMockUser(username = "User1", roles = "USER")
     @Test
     void createOrder_WrongCode() throws Exception {
@@ -173,6 +183,35 @@ public class OrderControllerUnitTest {
 
         mockMvc.perform(request)
                 .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+    @WithMockUser(username = "1", roles = "COMPANY")
+    @Test
+    void acceptOrder_Successful() throws Exception {
+        when(orderService.findOrderById(orderDto.getId())).thenReturn(Optional.of(orderDto));
+        doNothing().when(orderService).acceptOrder(orderDto, orderDto.getCompanyId().toString());
+
+        RequestBuilder request = MockMvcRequestBuilders
+                .put(URL + "/accept/" + orderDto.getId())
+                .accept(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+    @WithMockUser(username = "2", roles = "COMPANY")
+    @Test
+    void acceptOrder_AlreadyTaken() throws Exception {
+        when(orderService.findOrderById(orderDto.getId())).thenReturn(Optional.of(orderDto));
+        doThrow(new ResponseStatusException(HttpStatus.CONFLICT)).when(orderService).acceptOrder(orderDto, "2");
+
+        RequestBuilder request = MockMvcRequestBuilders
+                .put(URL + "/accept/" + orderDto.getId())
+                .accept(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(request)
+                .andExpect(status().isConflict())
                 .andDo(print());
     }
 }

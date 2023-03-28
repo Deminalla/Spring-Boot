@@ -3,7 +3,8 @@
 A project done to learn spring boot better
 
 Things implemented:
-* sprind data jpa, connected mysql database
+* spring data jpa, connected mysql database
+* flyway, so database and default values are set
 * unit testing with junit and mockito
 * spring security, login, roles for accessing certain functionalities and pages
 

@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface UserService {
     ClientDto getClientName(long id);
 
-    void modifyBalance(String user, BigDecimal money, boolean add);
+    BigDecimal modifyBalance(String user, BigDecimal money, boolean add);
 
     Optional<UserDto> findUserByUsername(String username);
 

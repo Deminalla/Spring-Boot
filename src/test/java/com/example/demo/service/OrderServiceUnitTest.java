@@ -12,15 +12,24 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static com.example.demo.helper.HelperOrder.*;
+import static com.example.demo.helper.HelperOrder.createOrderDto;
+import static com.example.demo.helper.HelperOrder.createOrderDto2;
+import static com.example.demo.helper.HelperOrder.createOrderDto3;
+import static com.example.demo.helper.HelperOrder.createOrderDto4;
+import static com.example.demo.helper.HelperOrder.createOrderEntity;
+import static com.example.demo.helper.HelperOrder.createOrderEntity2;
+import static com.example.demo.helper.HelperOrder.createOrderEntity3;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -85,9 +94,24 @@ public class OrderServiceUnitTest {
         OrderDto order = createOrderDto();
         order.setStatus(OrderStatus.FINISHED);
         when(orderMapper.entityToDto(orderEntity)).thenReturn(order);
-        OrderDto orderChangedStatus =  orderService.changeStatus(orderDto, OrderStatus.FINISHED, "1");
+        OrderDto orderChangedStatus =  orderService.changeStatus(orderDto, OrderStatus.FINISHED, orderDto.getCompanyId().toString());
 
         assertEquals(orderChangedStatus.getStatus(), OrderStatus.FINISHED);
         assertNotEquals(orderChangedStatus.getStatus(), OrderStatus.NOT_STARTED);
+    }
+    @Test
+    void changeStatus_WrongCompany(){
+        assertThrows(ResponseStatusException.class, ()-> orderService.changeStatus(orderDto, OrderStatus.FINISHED, "2"));
+    }
+
+    @Test
+    void acceptOrder_Successful(){
+        OrderDto order = createOrderDto4();
+        when(orderMapper.dtoToEntity(order)).thenReturn(orderEntity);
+        assertDoesNotThrow(()-> orderService.acceptOrder(order, orderDto.getCompanyId().toString()));
+    }
+    @Test
+    void acceptOrder_AlreadyTaken(){
+        assertThrows(ResponseStatusException.class, ()-> orderService.acceptOrder(orderDto, orderDto.getCompanyId().toString()));
     }
 }

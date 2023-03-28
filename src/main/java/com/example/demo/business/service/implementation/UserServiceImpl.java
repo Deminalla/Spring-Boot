@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void modifyBalance(String username, BigDecimal money, boolean add) {
+    public BigDecimal modifyBalance(String username, BigDecimal money, boolean add) {
         Optional<UserDto> userOptional = findUserByUsername(username);
         UserDto user = userOptional.get();
 
@@ -66,6 +66,7 @@ public class UserServiceImpl implements UserService {
         }
         UserEntity userEntity = userMapper.dtoToEntity(user);
         userRepository.save(userEntity);
+        return user.getBalance();
     }
 
     @Override

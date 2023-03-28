@@ -13,7 +13,7 @@ public class HelperOrder {
         OrderDto order = new OrderDto();
         order.setId(1L);
         order.setUserId(1L);
-        order.setDate(LocalDateTime.now());
+        order.setDate(LocalDateTime.parse("2022-12-09T18:19:26.492745400"));
         order.setPrice(BigDecimal.ONE);
         order.setCompanyId(1L);
         order.setStatus(OrderStatus.NOT_STARTED);
@@ -23,7 +23,7 @@ public class HelperOrder {
         OrderEntity order = new OrderEntity();
         order.setId(1L);
         order.setUserId(1L);
-        order.setDate(LocalDateTime.now());
+        order.setDate(LocalDateTime.parse("2022-12-09T18:19:26.492745400"));
         order.setPrice(BigDecimal.ONE);
         order.setCompanyId(1L);
         order.setStatus(OrderStatus.NOT_STARTED);
@@ -32,9 +32,9 @@ public class HelperOrder {
 
     public static OrderDto createOrderDto2(){
         OrderDto order = new OrderDto();
-        order.setId(2L);
+        order.setId(1L);
         order.setUserId(1L);
-        order.setDate(LocalDateTime.now());
+        order.setDate(LocalDateTime.parse("2022-12-09T18:19:26.492745400"));
         order.setPrice(BigDecimal.ONE);
         order.setCompanyId(1L);
         order.setStatus(OrderStatus.IN_PROGRESS);
@@ -42,9 +42,9 @@ public class HelperOrder {
     }
     public static OrderEntity createOrderEntity2(){
         OrderEntity order = new OrderEntity();
-        order.setId(2L);
+        order.setId(1L);
         order.setUserId(1L);
-        order.setDate(LocalDateTime.now());
+        order.setDate(LocalDateTime.parse("2022-12-09T18:19:26.492745400"));
         order.setPrice(BigDecimal.ONE);
         order.setCompanyId(1L);
         order.setStatus(OrderStatus.IN_PROGRESS);
@@ -54,8 +54,8 @@ public class HelperOrder {
     public static OrderDto createOrderDto3(){
         OrderDto order = new OrderDto();
         order.setId(3L);
-        order.setUserId(21111111111L);
-        order.setDate(LocalDateTime.now());
+        order.setUserId(2L);
+        order.setDate(LocalDateTime.parse("2022-12-09T18:19:26.492745400"));
         order.setPrice(BigDecimal.ONE);
         order.setCompanyId(1L);
         order.setStatus(OrderStatus.IN_PROGRESS);
@@ -64,33 +64,33 @@ public class HelperOrder {
     public static OrderEntity createOrderEntity3(){
         OrderEntity order = new OrderEntity();
         order.setId(3L);
-        order.setUserId(21111111111L);
-        order.setDate(LocalDateTime.now());
+        order.setUserId(2L);
+        order.setDate(LocalDateTime.parse("2022-12-09T18:19:26.492745400"));
         order.setPrice(BigDecimal.ONE);
         order.setCompanyId(1L);
         order.setStatus(OrderStatus.IN_PROGRESS);
         return order;
     }
 
-//    OrderDto createOrderDto4(){
-//        OrderDto order = new OrderDto();
-//        order.setId(4L);
-//        order.setUserId(21111111111L);
-//        order.setDate(LocalDateTime.now());
-//        order.setPrice(BigDecimal.ONE);
-//        order.setCompanyId(2L);
-//        order.setStatus(OrderStatus.FINISHED);
-//        return order;
-//    }
-//    OrderEntity createOrderEntity4(){
-//        OrderEntity order = new OrderEntity();
-//        order.setId(4L);
-//        order.setUserId(21111111111L);
-//        order.setDate(LocalDateTime.now());
-//        order.setPrice(BigDecimal.ONE);
-//        order.setCompanyId(2L);
-//        order.setStatus(OrderStatus.FINISHED);
-//        return order;
-//    }
+    public static OrderDto createOrderDto4(){
+        OrderDto order = new OrderDto();
+        order.setId(1L);
+        order.setUserId(1L);
+        order.setDate(LocalDateTime.parse("2022-12-09T18:19:26.492745400"));
+        order.setPrice(BigDecimal.ONE);
+//        order.setCompanyId(1L);
+        order.setStatus(OrderStatus.NOT_STARTED);
+        return order;
+    }
+    public static OrderEntity createOrderEntity4(){
+        OrderEntity order = new OrderEntity();
+        order.setId(1L);
+        order.setUserId(1L);
+        order.setDate(LocalDateTime.parse("2022-12-09T18:19:26.492745400"));
+        order.setPrice(BigDecimal.ONE);
+//        order.setCompanyId(1L);
+        order.setStatus(OrderStatus.NOT_STARTED);
+        return order;
+    }
 
 }
