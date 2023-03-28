@@ -103,6 +103,7 @@ public class UserServiceImpl implements UserService {
         userEntity.setPassword(newUserDto.getPassword());
         userEntity.setBalance(BigDecimal.ZERO);
         userEntity.setCode(rand_int);
+        userRepository.save(userEntity);
 
         return userMapper.entityToDto(userEntity);
     }
