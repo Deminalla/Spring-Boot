@@ -31,6 +31,8 @@ public class SecurityConfig {
                 .antMatchers("/company/**").hasRole("COMPANY")
                 .antMatchers("/order/**").hasAnyRole("USER", "COMPANY")
                 .antMatchers("/**").anonymous() // no role
+                .antMatchers("authenticate").permitAll()
+                .anyRequest().authenticated()
                 .and().httpBasic() // for basic authorization with postman
                 .and().formLogin();
         http.csrf().disable(); // for put/post method authorization on postman
